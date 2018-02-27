@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for blog in blogs %}
+    <h3>{{ blog.title }}</h3>
+    <p>{{ blog.content }}</p>
+{% endfor %}
+</body>
+</html>
