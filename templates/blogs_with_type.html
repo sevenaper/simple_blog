@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh_cn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ blog_type.type_name }}</title>
 </head>
 <body>
 <div>
@@ -10,7 +10,7 @@
 </div>
 <hr>
 {% for blog in blogs %}
-    <a href="/blog/{{ blog.pk }}">
+    <a href="/blog/{{blog.pk}}">
         <h3>{{ blog.title }}</h3>
     </a>
     <p>{{ blog.content|truncatechars:30 }}</p>

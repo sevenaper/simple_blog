@@ -5,7 +5,19 @@
     <title>{{ blog.title }}</title>
 </head>
 <body>
+<div>
+    <a href="/">
+        <h3>个人博客网站</h3>
+    </a>
+</div>
 <h3>{{ blog.title }}</h3>
-<p>blog.content</p>
+<p>作者：{{ blog.author }}</p>
+<p>发表日期:{{ blog.create_time|date:"Y-m-d" }}</p>
+<p>分类:
+    <a href="/blog/type/{{blog_type_pk}}">
+        {{ blog.blog_type }}
+    </a>
+</p>
+<p>{{ blog.content }}</p>
 </body>
 </html>
