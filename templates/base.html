@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/base.css">
+{% block head_extrends %}{% endblock %}
 </head>
 <body>
-<div>
-    <a href="/">
+<div class="nav">
+    <a href="/" class="logo">
         <h3>个人博客网站</h3>
     </a>
     <a href="/">首页</a>
     <a href="/blog">博客</a>
 </div>
-<hr>
 {% block content %}{% endblock %}
-<style type="text/css">
 
-</style>
+
 </body>
 </html>
