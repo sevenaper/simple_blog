@@ -2,33 +2,56 @@
 {% block title %}我的网站{% endblock %}
 {% block nav_blog_active %}active{% endblock %}
 
-
+{% block head_extrends %}
+    <link rel="stylesheet" href="/static/blog.css"
+{% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
-                {% for blog in blogs %}
-                    <a href="/blog/{{ blog.pk }}">
-                        <h3>{{ blog.title }}</h3>
-                    </a>
-                    <p>{{ blog.content|truncatechars:30 }}</p>
-                {% empty %}
-                    <p>------暂无博客，敬请期待------</p>
-                {% endfor %}
-                <p>一共有{{ blogs|length }}篇博客</p>
+            <div class="col-sm-8 col-md-9 col-lg-10">
+                <div class="panel panel-default">
+                    <div class="panel-heading">{% block blog_list_title %}博客列表：共{% endblock %}{{ blogs|length }}篇博客</div>
+                    <div class="panel-body">
+                        {% for blog in blogs %}
+                            <div class="blog">
+                                <h3><a href="/blog/{{ blog.pk }}">
+                                    {{ blog.title }}
+                                </a></h3>
+                                <p class="blog-info">
+                                    <span class="glyphicon glyphicon-tag"></span>
+                                    <a href="/blog/type/{{blog.blog_type_id}}">{{ blog.blog_type }}</a>
+                                    &nbsp;
+                                    <span class="glyphicon glyphicon-time"></span>
+                                    {{ blog.create_time }}
+                                </p>
+                                <p>{{ blog.content|truncatechars:132 }}</p>
+                            </div>
+
+                        {% empty %}
+                            <div class="blog">
+                                <h3><p>暂无博客，敬请期待</p></h3>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
 
             </div>
-            <div class="col-md-4">
-                <h4>博客分类</h4>
-                <ur>
-                    {% for blog_type in blog_types %}
-                        <li>
-                            <a href="/blog/type/{{ blog_type.id }}">{{ blog_type.type_name }}</a>
-                        </li>
-                    {% empty %}
-                        <li>暂无分类</li>
-                    {% endfor %}
-                </ur>
+            <div class="hidden-xs col-sm-4 col-md-3 col-lg-2 ">
+                <div class="panel panel-default">
+                    <div class="panel-heading">博客分类</div>
+                    <div class="panel-body">
+                        <ul class="blog-types">
+                            {% for blog_type in blog_types %}
+                                <li>
+                                    <a href="/blog/type/{{ blog_type.id }}">{{ blog_type.type_name }}</a>
+                                </li>
+                            {% empty %}
+                                <li>暂无分类</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
