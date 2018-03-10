@@ -10,7 +10,9 @@ def blog_list(request):
     page_num = request.GET.get('page', 10)  # get请求获取页码
     page_of_blogs = paginator.get_page(page_num)
     current_page = page_of_blogs.number
-    if current_page == 1 or current_page == 2:
+    if paginator.num_pages == 1:
+        page_range = [1]
+    elif current_page == 1 or current_page == 2:
         if paginator.num_pages <= 5:
             page_range = list(range(1, paginator.num_pages))
         else:
@@ -48,14 +50,15 @@ def blog_detail(request, blog_pk):
 
 
 def blogs_with_type(request, blog_type_pk):
-    context = {}
     blog_type = get_object_or_404(BlogType, pk=blog_type_pk)
     blogs_all_list = Blog.objects.filter(blog_type=blog_type)
     paginator = Paginator(blogs_all_list, 10)  # 十个博客进行分页
     page_num = request.GET.get('page', 10)  # get请求获取页码
     page_of_blogs = paginator.get_page(page_num)
     current_page = page_of_blogs.number
-    if current_page == 1 or current_page == 2:
+    if paginator.num_pages == 1:
+        page_range = [1]
+    elif current_page == 1 or current_page == 2:
         if paginator.num_pages <= 5:
             page_range = list(range(1, paginator.num_pages))
         else:
