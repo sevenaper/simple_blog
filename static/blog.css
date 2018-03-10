@@ -21,11 +21,15 @@ ul.blog-info-description {
     margin-bottom: 1em;
 }
 
-ul.blog-info-description li{
+ul.blog-info-description li {
     display: inline-block;
     margin-right: 1em;
 }
 
-div.blog-content{
+div.blog-content {
     text-indent: 2em;
+}
+
+div.paginator {
+    text-align: center;
 }

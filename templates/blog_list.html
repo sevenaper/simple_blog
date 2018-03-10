@@ -11,11 +11,11 @@
         <div class="row">
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <div class="panel panel-default">
-                    <div class="panel-heading">{% block blog_list_title %}博客列表：共{% endblock %}
-                        {{ page_of_blogs.paginator.count }}篇博客
+                    <div class="panel-heading">{% block blog_list_title %}博客列表:共{% endblock %}
+                        {% block sum_up %}{{ page_of_blogs.paginator.count }}{% endblock %}篇博客
                     </div>
                     <div class="panel-body">
-                        {% for blog in page_of_blogs.object_list %}
+                        {% for blog in blogs %}
                             <div class="blog">
                                 <h3><a href="/blog/{{ blog.pk }}">
                                     {{ blog.title }}
@@ -38,39 +38,49 @@
 
                     </div>
                 </div>
-                <ul class="pagination">
+                <div class="paginator">
+                    <ul class="pagination">
 
 
-                {# 上一页 #}
-                    <li>
-                        {% if page_of_blogs.has_previous %}
-                            <a href="?page={{ page_of_blogs.previous_page_number }}" aria-label="Previous">
+                        {# 上一页 #}
+                        <li>
+                            {% if page_of_blogs.has_previous %}
+                                <a href="?page={{ page_of_blogs.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% else %}
                                 <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        {% else %}
-                            <span aria-hidden="true">&laquo;</span>
-                        {% endif %}
-                    </li>
+                            {% endif %}
+                        </li>
 
 
-                    {# 页数 #}
-                    {% for page_num in page_of_blogs.paginator.page_range %}
-                        <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
-                    {% endfor %}
+                        {# 页数 #}
+                        {% for page_num in page_range %}
+                            {% if page_num == page_of_blogs.number %}
+                                <li class="active"><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            {% else %}
+                                {% if page_num == '...' %}
+                                    <li><span>{{ page_num }}</span></li>
+                                {% else %}
+                                    <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
 
 
-                    {# 下一页 #}
-                    <li>
-                        {% if page_of_blogs.has_next %}
-                            <a href="?page={{ page_of_blogs.next_page_number }}" aria-label="Next">
+                        {# 下一页 #}
+                        <li>
+                            {% if page_of_blogs.has_next %}
+                                <a href="?page={{ page_of_blogs.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% else %}
                                 <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        {% else %}
-                            <span aria-hidden="true">&raquo;</span>
-                        {% endif %}
+                            {% endif %}
 
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             {# 博客分类 #}
