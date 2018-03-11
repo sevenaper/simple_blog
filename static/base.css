@@ -1,8 +1,12 @@
 * {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 body {
-    margin-top: 70px !important;
+	margin-top: 70px !important;
+}
+
+ul {
+	list-style-type: none !important;
 }

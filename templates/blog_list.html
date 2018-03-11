@@ -27,7 +27,7 @@
                                     <span class="glyphicon glyphicon-time"></span>
                                     {{ blog.create_time }}
                                 </p>
-                                <p>{{ blog.content|truncatechars:132 }}</p>
+                                <p>{{ blog.content|striptags|truncatechars:132 }}</p>
                             </div>
 
                         {% empty %}
@@ -92,6 +92,22 @@
                             {% for blog_type in blog_types %}
                                 <li>
                                     <a href="/blog/type/{{ blog_type.id }}">{{ blog_type.type_name }}</a>
+                                </li>
+                            {% empty %}
+                                <li>暂无分类</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">日期归档</div>
+                    <div class="panel-body">
+                        <ul class="blog-types">
+                            {% for blog_date in blog_dates %}
+                                <li>
+                                    <a href="{%url 'blogs_with_date' blog_date.year blog_date.month %}">
+                                        {{ blog_date|date:"Y-m" }}
+                                    </a>
                                 </li>
                             {% empty %}
                                 <li>暂无分类</li>
