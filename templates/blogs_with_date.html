@@ -1,0 +1,10 @@
+{% extends 'blog_list.html' %}
+{% block title %}
+    {{ year }}-{{ month }}
+{% endblock %}
+{% block blog_list_title %}
+    {{ year }}-{{ month }}:
+{% endblock %}
+{% block sum_up %}{{ blogs_all_list.count }}{% endblock %}
+
+
