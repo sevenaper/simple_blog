@@ -47,12 +47,18 @@ def blog_list(request):
 
 def blog_detail(request, blog_pk):
     context = {}
+    blog = get_object_or_404(Blog, pk=blog_pk)
+    if not request.COOKIES.get('blog_%s_readed' % blog_pk):
+        blog.readed_num += 1
+        blog.save()
     context['blog'] = get_object_or_404(Blog, pk=blog_pk)
     context['previous_blog'] = Blog.objects.filter(
         create_time__gt=get_object_or_404(Blog, pk=blog_pk).create_time).last()
     context['next_blog'] = Blog.objects.filter(
         create_time__lt=get_object_or_404(Blog, pk=blog_pk).create_time).first()
-    return render_to_response('blog_detail.html', context)
+    response = render_to_response('blog_detail.html', context)
+    response.set_cookie('blog_%s_readed' % blog_pk, 'True', max_age=300)
+    return response
 
 
 def blogs_with_type(request, blog_type_pk):
@@ -141,6 +147,6 @@ def blogs_with_date(request, year, month):
     context['blogs_all_list'] = blogs_all_list
     context['blog_dates'] = Blog.objects.dates(
         'create_time', 'month', order='DESC')
-    context['year']=year
-    context['month']=month
+    context['year'] = year
+    context['month'] = month
     return render_to_response('blogs_with_date.html', context)
