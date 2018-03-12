@@ -7,7 +7,7 @@ from .models import Blog, BlogType
 def blog_list(request):
     blogs_all_list = Blog.objects.all()
     paginator = Paginator(blogs_all_list, 10)  # 十个博客进行分页
-    page_num = request.GET.get('page', 10)  # get请求获取页码
+    page_num = request.GET.get('page', 1)  # get请求获取页码
     page_of_blogs = paginator.get_page(page_num)
     current_page = page_of_blogs.number
     if paginator.num_pages == 1:
@@ -59,7 +59,7 @@ def blogs_with_type(request, blog_type_pk):
     blog_type = get_object_or_404(BlogType, pk=blog_type_pk)
     blogs_all_list = Blog.objects.filter(blog_type=blog_type)
     paginator = Paginator(blogs_all_list, 10)  # 十个博客进行分页
-    page_num = request.GET.get('page', 10)  # get请求获取页码
+    page_num = request.GET.get('page', 1)  # get请求获取页码
     page_of_blogs = paginator.get_page(page_num)
     current_page = page_of_blogs.number
     if paginator.num_pages == 1:
@@ -105,7 +105,7 @@ def blogs_with_date(request, year, month):
         create_time__year=year, create_time__month=month)
 
     paginator = Paginator(blogs_all_list, 10)  # 十个博客进行分页
-    page_num = request.GET.get('page', 10)  # get请求获取页码
+    page_num = request.GET.get('page', 1)  # get请求获取页码
     page_of_blogs = paginator.get_page(page_num)
     current_page = page_of_blogs.number
     if paginator.num_pages == 1:
