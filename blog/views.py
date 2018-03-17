@@ -1,8 +1,8 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.paginator import Paginator
 from .models import Blog, BlogType
-from django.contrib.contenttypes.models import ContentType
-from read_statistics.models import ReadNum
+
+from read_statistics.utils import read_statistics_once_read
 
 
 # Create your views here.
@@ -50,21 +50,14 @@ def blog_list(request):
 def blog_detail(request, blog_pk):
     context = {}
     blog = get_object_or_404(Blog, pk=blog_pk)
-    if not request.COOKIES.get('blog_%s_read' % blog_pk):
-        ct = ContentType.objects.get_for_model(Blog)
-        if ReadNum.objects.filter(content_type=ct, object_id=blog.pk).count():
-            readnum = ReadNum.objects.get(content_type=ct, object_id=blog.pk)
-        else:
-            readnum = ReadNum(content_type=ct, object_id=blog.pk)
-        readnum.read_num += 1
-        readnum.save()
+    read_cookie_key=read_statistics_once_read(request,blog)
     context['blog'] = get_object_or_404(Blog, pk=blog_pk)
     context['previous_blog'] = Blog.objects.filter(
         create_time__gt=get_object_or_404(Blog, pk=blog_pk).create_time).last()
     context['next_blog'] = Blog.objects.filter(
         create_time__lt=get_object_or_404(Blog, pk=blog_pk).create_time).first()
     response = render_to_response('blog_detail.html', context)
-    response.set_cookie('blog_%s_read' % blog_pk, 'True', max_age=300)
+    response.set_cookie(read_cookie_key, 'True', max_age=300)
     return response
 
 
