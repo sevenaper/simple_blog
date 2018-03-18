@@ -10,4 +10,4 @@ class ReadNumAdmin(admin.ModelAdmin):
 
 @admin.register(ReadDetail)
 class ReadDetailAdmin(admin.ModelAdmin):
-    list_display = ('date','read_num', 'content_object')
+    list_display = ('date', 'read_num', 'content_object')
