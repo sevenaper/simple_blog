@@ -57,7 +57,7 @@ def blog_detail(request, blog_pk):
     context['next_blog'] = Blog.objects.filter(
         create_time__lt=get_object_or_404(Blog, pk=blog_pk).create_time).first()
     response = render_to_response('blog_detail.html', context)
-    response.set_cookie(read_cookie_key, 'True', max_age=300)
+    response.set_cookie('blog_%s_read' % blog_pk, 'true', max_age=300)
     return response
 
 

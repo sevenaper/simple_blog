@@ -9,7 +9,41 @@
 {% block nav_home_active %}active{% endblock %}
 {% block content %}
     <h3 class="home-content">我的网站，请随便看</h3>
-    <div id="main">
+    <div id="main"></div>
+    <div class="hot_blogs">
+        <div><h3>今天热门点击</h3>
+            <ul>
+                {% for hot_data in today_hot_data %}
+                    <li>
+                        <a href="/blog/{{ hot_data.content_object.pk }}">{{ hot_data.content_object.title }}</a>
+                    </li>
+                {% empty %}
+                    <li>暂无热门博客</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div><h3>昨天热门点击</h3>
+            <ul>
+                {% for hot_data in yesterday_hot_data %}
+                    <li>
+                        <a href="/blog/{{ hot_data.content_object.pk }}">{{ hot_data.content_object.title }}</a>
+                    </li>
+                {% empty %}
+                    <li>暂无热门博客</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div><h3>七天热门点击</h3>
+            <ul>
+                {% for hot_data in for_7_days_hot_data %}
+                    <li>
+                        <a href="/blog/{{ hot_data.id }}">{{ hot_data.title }}</a>
+                    </li>
+                {% empty %}
+                    <li>暂无热门博客</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
@@ -33,7 +67,8 @@
 
             xAxis: {
                 type: 'category',
-                data: {{ dates|safe }}
+                data: {{ dates|safe }},
+                name: '最近7日阅读量'
             },
             yAxis: {},
             series: [{
@@ -44,7 +79,6 @@
                 itemStyle: {normal: {label: {show: true}}},
             }]
         };
-
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
         window.onresize = function () {
