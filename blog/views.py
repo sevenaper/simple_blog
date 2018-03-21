@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, render
 from django.core.paginator import Paginator
 from .models import Blog, BlogType
 
@@ -44,19 +44,19 @@ def blog_list(request):
     context['page_range'] = page_range
     context['blog_dates'] = Blog.objects.dates(
         'create_time', 'month', order='DESC')
-    return render_to_response('blog_list.html', context)
+    return render(request, 'blog_list.html', context)
 
 
 def blog_detail(request, blog_pk):
     context = {}
     blog = get_object_or_404(Blog, pk=blog_pk)
-    read_cookie_key=read_statistics_once_read(request,blog)
+    read_cookie_key = read_statistics_once_read(request, blog)
     context['blog'] = get_object_or_404(Blog, pk=blog_pk)
     context['previous_blog'] = Blog.objects.filter(
         create_time__gt=get_object_or_404(Blog, pk=blog_pk).create_time).last()
     context['next_blog'] = Blog.objects.filter(
         create_time__lt=get_object_or_404(Blog, pk=blog_pk).create_time).first()
-    response = render_to_response('blog_detail.html', context)
+    response = render(request, 'blog_detail.html', context)
     response.set_cookie('blog_%s_read' % blog_pk, 'true', max_age=300)
     return response
 
@@ -103,7 +103,7 @@ def blogs_with_type(request, blog_type_pk):
     context['page_range'] = page_range
     context['blogs_all_list'] = blogs_all_list
 
-    return render_to_response('blogs_with_type.html', context)
+    return render(request, 'blogs_with_type.html', context)
 
 
 def blogs_with_date(request, year, month):
@@ -149,4 +149,4 @@ def blogs_with_date(request, year, month):
         'create_time', 'month', order='DESC')
     context['year'] = year
     context['month'] = month
-    return render_to_response('blogs_with_date.html', context)
+    return render(request, 'blogs_with_date.html', context)

@@ -1,6 +1,7 @@
 import datetime
-from django.shortcuts import render_to_response
+from django.shortcuts import render, redirect
 from django.contrib.contenttypes.models import ContentType
+from django.contrib import auth
 from django.utils import timezone
 from django.db.models import Sum
 from django.core.cache import cache
@@ -20,14 +21,13 @@ def home(request):
         for_7_days_hot_data = get_seven_days_hot_blogs()
         cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
 
-
     context = {}
     context['read_nums'] = read_nums
     context['dates'] = dates
     context['today_hot_data'] = today_hot_data
     context['yesterday_hot_data'] = yesterday_hot_data
     context['for_7_days_hot_data'] = get_seven_days_hot_blogs()
-    return render_to_response('home.html', context)
+    return render(request, 'home.html', context)
 
 
 def get_seven_days_hot_blogs():
@@ -36,3 +36,14 @@ def get_seven_days_hot_blogs():
     blogs = Blog.objects.filter(read_details__date__lt=today, read_details__date__gt=date). \
         values('id', 'title').annotate(read_num_sum=Sum('read_details__read_num')).order_by('-read_num_sum')
     return blogs
+
+
+def login(request):
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
+    user = auth.authenticate(request, username=username, password=password)
+    if user is not None:
+        auth.login(request, user)
+        return redirect('/')
+    else:
+        return render(request, 'error.html', {'message': '用户名或密码不正确'})
