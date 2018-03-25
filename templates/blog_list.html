@@ -3,7 +3,7 @@
 {% block nav_blog_active %}active{% endblock %}
 
 {% block head_extrends %}
-    <link rel="stylesheet" href="/static/blog.css"
+    <link rel="stylesheet" href="/static/blog.css">
 {% endblock %}
 {% block content %}
     {# 博客列表 #}
@@ -105,7 +105,7 @@
                         <ul class="blog-types">
                             {% for blog_date in blog_dates %}
                                 <li>
-                                    <a href="{%url 'blogs_with_date' blog_date.year blog_date.month %}">
+                                    <a href="{% url 'blogs_with_date' blog_date.year blog_date.month %}">
                                         {{ blog_date|date:"Y-m" }}
                                     </a>
                                 </li>
@@ -113,6 +113,24 @@
                                 <li>暂无分类</li>
                             {% endfor %}
                         </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">七日热门点击</div>
+                    <div class="panel-body">
+                        <div class="hot_blogs">
+                            <div>
+                                <ul>
+                                    {% for hot_data in for_7_days_hot_data %}
+                                        <li>
+                                            <a href="/blog/{{ hot_data.id }}">{{ hot_data.title }}</a>
+                                        </li>
+                                    {% empty %}
+                                        <li>暂无热门博客</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

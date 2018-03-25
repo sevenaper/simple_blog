@@ -1,8 +1,12 @@
-from django.shortcuts import render_to_response, get_object_or_404, render
-from django.core.paginator import Paginator
-from .models import Blog, BlogType
-
+from .models import BlogType
 from read_statistics.utils import read_statistics_once_read
+import datetime
+from django.utils import timezone
+from django.db.models import Sum
+from django.shortcuts import get_object_or_404, render
+from django.core.paginator import Paginator
+from django.core.cache import cache
+from blog.models import Blog
 
 
 # Create your views here.
@@ -44,6 +48,11 @@ def blog_list(request):
     context['page_range'] = page_range
     context['blog_dates'] = Blog.objects.dates(
         'create_time', 'month', order='DESC')
+    for_7_days_hot_data = cache.get('for_7_days_hot_data')
+    if for_7_days_hot_data is None:
+        for_7_days_hot_data = get_seven_days_hot_blogs()
+        cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
+    context['for_7_days_hot_data'] = get_seven_days_hot_blogs()
     return render(request, 'blog_list.html', context)
 
 
@@ -150,3 +159,11 @@ def blogs_with_date(request, year, month):
     context['year'] = year
     context['month'] = month
     return render(request, 'blogs_with_date.html', context)
+
+
+def get_seven_days_hot_blogs():
+    today = timezone.now().date()
+    date = today - datetime.timedelta(days=7)
+    blogs = Blog.objects.filter(read_details__date__lt=today, read_details__date__gt=date). \
+        values('id', 'title').annotate(read_num_sum=Sum('read_details__read_num')).order_by('-read_num_sum')
+    return blogs
