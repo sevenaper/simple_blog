@@ -33,6 +33,16 @@ div.blog-content {
 div.paginator {
     text-align: center;
 }
-div.blog-more{
+
+div.blog-more {
     margin-top: 1em;
+}
+
+div.comment-area {
+    margin-top: 2em;
+}
+
+h3.comment-area-title {
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 0.4em;
 }
