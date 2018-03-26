@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../FakeHanMove-master/.idea/FakeHanMove.iml" filepath="$PROJECT_DIR$/../FakeHanMove-master/.idea/FakeHanMove.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Python for data analysis/.idea/Python for data analysis.iml" filepath="$PROJECT_DIR$/../Python for data analysis/.idea/Python for data analysis.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/mysite_env.iml" filepath="$PROJECT_DIR$/.idea/mysite_env.iml" />
     </modules>
   </component>

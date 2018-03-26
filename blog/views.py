@@ -111,6 +111,11 @@ def blogs_with_type(request, blog_type_pk):
     context['blog_types'] = BlogType.objects.all()
     context['page_range'] = page_range
     context['blogs_all_list'] = blogs_all_list
+    for_7_days_hot_data = cache.get('for_7_days_hot_data')
+    if for_7_days_hot_data is None:
+        for_7_days_hot_data = get_seven_days_hot_blogs()
+        cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
+    context['for_7_days_hot_data'] = get_seven_days_hot_blogs()
 
     return render(request, 'blogs_with_type.html', context)
 
@@ -158,6 +163,11 @@ def blogs_with_date(request, year, month):
         'create_time', 'month', order='DESC')
     context['year'] = year
     context['month'] = month
+    for_7_days_hot_data = cache.get('for_7_days_hot_data')
+    if for_7_days_hot_data is None:
+        for_7_days_hot_data = get_seven_days_hot_blogs()
+        cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
+    context['for_7_days_hot_data'] = get_seven_days_hot_blogs()
     return render(request, 'blogs_with_date.html', context)
 
 
