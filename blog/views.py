@@ -2,11 +2,13 @@ from .models import BlogType
 from read_statistics.utils import read_statistics_once_read
 import datetime
 from django.utils import timezone
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 from django.core.cache import cache
 from blog.models import Blog
+from comment.models import Comment
 
 
 # Create your views here.
@@ -59,12 +61,15 @@ def blog_list(request):
 def blog_detail(request, blog_pk):
     context = {}
     blog = get_object_or_404(Blog, pk=blog_pk)
+    blog_content_type = ContentType.objects.get_for_model(blog)
+    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk)
     read_cookie_key = read_statistics_once_read(request, blog)
     context['blog'] = get_object_or_404(Blog, pk=blog_pk)
     context['previous_blog'] = Blog.objects.filter(
         create_time__gt=get_object_or_404(Blog, pk=blog_pk).create_time).last()
     context['next_blog'] = Blog.objects.filter(
         create_time__lt=get_object_or_404(Blog, pk=blog_pk).create_time).first()
+    context['comments'] = comments
     response = render(request, 'blog_detail.html', context)
     response.set_cookie('blog_%s_read' % blog_pk, 'true', max_age=300)
     return response

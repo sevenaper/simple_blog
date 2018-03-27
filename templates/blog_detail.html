@@ -54,13 +54,16 @@
             <div class="comment_area">
                 <h3 class="comment-area-title">提交评论区</h3>
                 {% if user.is_authenticated %}
-                    {{ user.username }},欢迎评论
-                    <form action="" method="post">
+                    <form action="{% url 'update_comment' %}" method="post" style="overflow: hidden">
                         {% csrf_token %}
-                        <textarea name="text" id="comment_text"></textarea>
+                        <div class="form-group">
+                            <label for="comment_text">{{ user.username }},欢迎评论</label>
+                            <textarea name="text" class="form-control" id="comment_text" rows="5"
+                                      style="resize: none;"></textarea>
+                        </div>
                         <input type="hidden" name="object_id" value="{{ blog.pk }}">
                         <input type="hidden" name="content_type" value="blog">
-                        <input type="submit" value="评论">
+                        <input type="submit" value="评论" class="btn btn-primary" style="float: right">
                     </form>
                 {% else %}
                     未登录,登陆之后方可评论
@@ -76,6 +79,15 @@
             </div>
             <div class="comment_area">
                 <h3 class="comment-area-title">评论列表区</h3>
+                {% for comment in comments %}
+                    <div>
+                        {{ comment.user.username }}
+                        ({{ comment.comment_time|date:"Y-m-d" }}):
+                        {{ comment.text }}
+                    </div>
+                {% empty %}
+                    暂无评论
+                {% endfor %}
             </div>
         </div>
     </div>
