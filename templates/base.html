@@ -14,27 +14,28 @@
 </head>
 
 <body>
-    <div class="navbar  navbar-fixed-top navbar-default" role="navigation">
-        <div class="container-fluid">
-            <div class="container-header">
-                <a href="/" class="navbar-brand">
-                    个人博客网站
-                </a>
-                <button data-target="#navbar-collapse" class="navbar-toggle collapsed" data-toggle="collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav blogs" >
-                    <li class="{% block nav_home_active %}{% endblock %}"><a href="/">首页</a></li>
-                    <li class="{% block nav_blog_active %}{% endblock %}"><a href="/blog">博客</a></li>
-                </ul>
-            </div>
+<div class="navbar  navbar-fixed-top navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="container-header">
+            <a href="/" class="navbar-brand">
+                个人博客网站
+            </a>
+            <button data-target="#navbar-collapse" class="navbar-toggle collapsed" data-toggle="collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav blogs">
+                <li class="{% block nav_home_active %}{% endblock %}"><a href="/">首页</a></li>
+                <li class="{% block nav_blog_active %}{% endblock %}"><a href="/blog">博客</a></li>
+                <li class="{% block nav_tag_active %}{% endblock %}"><a href="/tag">标签云</a></li>
+            </ul>
         </div>
     </div>
-    {% block content %}{% endblock %}
+</div>
+{% block content %}{% endblock %}
 </body>
 
 </html>

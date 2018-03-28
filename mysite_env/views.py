@@ -49,3 +49,4 @@ def login(request):
         return redirect(referer)
     else:
         return render(request, 'error.html', {'message': '用户名或密码不正确'})
+

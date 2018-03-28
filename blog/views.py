@@ -182,3 +182,9 @@ def get_seven_days_hot_blogs():
     blogs = Blog.objects.filter(read_details__date__lt=today, read_details__date__gt=date). \
         values('id', 'title').annotate(read_num_sum=Sum('read_details__read_num')).order_by('-read_num_sum')
     return blogs
+
+
+def blog_tags(request):
+    context = {}
+    context['blog_types'] = BlogType.objects.all()
+    return render(request, 'tag.html', context)

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}
+    tag cloud
+{% endblock %}
+{% block head_extrends %}
+    <link href="/static/tagcloud.min.css">
+    <script src="/static/tagcloud.min.js"></script>
+{% endblock %}
+{% block nav_tag_active %}active{% endblock %}
+{% block content %}
+    <div style="height: 100%; width: 1200px;" >
+        <div class="tagcloud">
+            {% for tag in blog_types %}
+                <a href="/blog/type/{{ tag.pk }}" style="color: #000000;">{{ tag.type_name }}</a>
+            {% empty %}
+                <h1 align="center" style="font-size: 46px;">暂无分类</h1>
+            {% endfor %}
+        </div>
+    </div>
+    <script type="text/javascript">
+        options = {
+            selector: ".tagcloud",  //元素选择器
+            fontsize: 36,       //基本字体大小
+            radius: 160,         //滚动半径
+            mspeed: "normal",   //滚动最大速度
+            ispeed: "normal",   //滚动初速度
+            direction: 135,     //初始滚动方向
+            keep: false         //鼠标移出组件后是否继续随鼠标滚动
+        }
+        window.onload = tagcloud(options);
+
+
+    </script>
+{% endblock %}
