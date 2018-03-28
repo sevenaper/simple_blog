@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-color: #ffffff;
+    background-size: 100%;
+}
+
+#slogan {
+    text-align: center;
+    font-size: 46px;
+    margin-top: 0em;
+    color: #000000;
+}
+
+#slogan span {
+    color: #000000;
+}
+
+#slogan span.selected {
+    background: #09f;
+    color: #fff;
+}
