@@ -8,7 +8,7 @@
 {% endblock %}
 {% block nav_tag_active %}active{% endblock %}
 {% block content %}
-    <div style="height: 100%; width: 1200px;" >
+    <div align="center" >
         <div class="tagcloud">
             {% for tag in blog_types %}
                 <a href="/blog/type/{{ tag.pk }}" style="color: #000000;">{{ tag.type_name }}</a>
@@ -28,7 +28,5 @@
             keep: false         //鼠标移出组件后是否继续随鼠标滚动
         }
         window.onload = tagcloud(options);
-
-
     </script>
 {% endblock %}

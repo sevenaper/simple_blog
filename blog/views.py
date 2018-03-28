@@ -188,3 +188,7 @@ def blog_tags(request):
     context = {}
     context['blog_types'] = BlogType.objects.all()
     return render(request, 'tag.html', context)
+
+
+def contact(request):
+    return render(request, 'contact.html')
