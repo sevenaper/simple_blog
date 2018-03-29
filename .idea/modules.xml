@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../DecisionTree/.idea/DecisionTree.iml" filepath="$PROJECT_DIR$/../DecisionTree/.idea/DecisionTree.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Python for data analysis/.idea/Python for data analysis.iml" filepath="$PROJECT_DIR$/../Python for data analysis/.idea/Python for data analysis.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Titanic/.idea/Titanic.iml" filepath="$PROJECT_DIR$/../Titanic/.idea/Titanic.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/mysite_env.iml" filepath="$PROJECT_DIR$/.idea/mysite_env.iml" />

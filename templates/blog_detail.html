@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="/static/blog.css">
     <style>
         input:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0px 1000px rgba(255, 255, 255, 1) inset !important;
-        / / 关于解决输入框背景颜色 -webkit-text-fill-color: rgba(255, 255, 255, 1) !important;
-        / / 关于接输入框文字颜色
+            -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 1) inset !important;
+            -webkit-text-fill-color: rgba(255, 255, 255, 1) !important;
+
         }
     </style>
 {% endblock %}
@@ -49,7 +49,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="container" >
         <div class="col-xs-10 col-xs-offset-1">
             <div class="comment_area">
                 <h3 class="comment-area-title">提交评论区</h3>
@@ -66,15 +66,23 @@
                         <input type="submit" value="评论" class="btn btn-primary" style="float: right">
                     </form>
                 {% else %}
-                    未登录,登陆之后方可评论
                     <form action="{% url 'login' %}" method="POST">
                         {% csrf_token %}
-                        <span>用户名:</span>
-                        <input type="text" name="username">
-                        <span>密码:</span>
-                        <input type="password" name="password">
-                        <input type="submit" value="登陆">
+                        <div class="form-group">
+                            <label for="inputPassword2" class="sr-only">Password</label>
+                            <p><b>Username:</b></p>
+                            <input type="text" class="form-control" name="username"
+                                   placeholder="Username" style="width: 30%;">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword2" class="sr-only">Password</label>
+                            <p><b>Password:</b></p>
+                            <input type="password" class="form-control" name="password"
+                                   placeholder="Password" style="width: 30%">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
                     </form>
+
                 {% endif %}
             </div>
             <div class="comment_area">

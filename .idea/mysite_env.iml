@@ -20,6 +20,7 @@
     <orderEntry type="module" module-name="Python for data analysis" />
     <orderEntry type="module" module-name="FakeHanMove" />
     <orderEntry type="module" module-name="Titanic" />
+    <orderEntry type="module" module-name="DecisionTree" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
