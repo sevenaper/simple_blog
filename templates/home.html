@@ -5,58 +5,16 @@
 {% block head_extrends %}
     <link rel="stylesheet" href="/static/home.css">
     <link rel="stylesheet" href="/static/slogan.css">
+    <link rel="stylesheet" href="/static/home.css">
 
-    <script src="/static/echarts.common.min.js"></script>
     <script src="/static/jquery-1.12.4.min.js"></script>
     <script src="/static/type.js"></script>
 {% endblock %}
 {% block nav_home_active %}active{% endblock %}
 {% block content %}
-    <div id="slogan" data-text="I'am aper" style="font-family: 'Calisto MT'">
+    <div class="home">
+        <div id="slogan" data-text="I'am aper" style="font-family: 'Calisto MT'">
+        </div>
+        <h1 align="center" style="font-size: 46px; font-family: 'Calisto MT'">Welcome to my blog</h1>
     </div>
-    <h1 align="center" style="font-size: 46px; font-family: 'Calisto MT'">Welcome to my blog</h1>
-    <div id="main"></div>
-    <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        var worldMapContainer = document.getElementById('main');
-
-        //用于使chart自适应高度和宽度,通过窗体高宽计算容器高宽
-        var resizeWorldMapContainer = function () {
-            worldMapContainer.style.width = window.innerWidth + 'px';
-            worldMapContainer.style.height = window.innerHeight + 'px';
-        };
-        //设置容器高宽
-        resizeWorldMapContainer();
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(worldMapContainer);
-
-        // 指定图表的配置项和数据
-        var option = {
-            title: {
-                text: null
-            },
-
-            xAxis: {
-                type: 'category',
-                data: {{ dates|safe }},
-                name: '最近7日阅读量'
-            },
-            yAxis: {},
-            series: [{
-                name: '阅读量',
-                type: 'line',
-                data: {{ read_nums }},
-                smooth: true,
-                itemStyle: {normal: {label: {show: true}}},
-
-            }]
-        };
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-        window.onresize = function () {
-            //重置容器高宽
-            resizeWorldMapContainer();
-            myChart.resize();
-        }
-    </script>
 {% endblock %}

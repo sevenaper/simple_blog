@@ -7,7 +7,7 @@
     <style>
         input:-webkit-autofill {
             -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 1) inset !important;
-            -webkit-text-fill-color: rgba(255, 255, 255, 1) !important;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0) !important;
 
         }
     </style>
@@ -69,7 +69,6 @@
                     <form action="{% url 'login' %}" method="POST">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="inputPassword2" class="sr-only">Password</label>
                             <p><b>Username:</b></p>
                             <input type="text" class="form-control" name="username"
                                    placeholder="Username" style="width: 30%;">
@@ -88,7 +87,7 @@
             <div class="comment_area">
                 <h3 class="comment-area-title">评论列表区</h3>
                 {% for comment in comments %}
-                    <div>
+                    <div class="comment-area-content">
                         {{ comment.user.username }}
                         ({{ comment.comment_time|date:"Y-m-d" }}):
                         {{ comment.text }}
