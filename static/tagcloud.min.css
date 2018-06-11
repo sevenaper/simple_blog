@@ -7,14 +7,13 @@
     visibility: hidden;
     display: block;
     position: relative;
-    height: 1600em;
-    width: 1600em;
+    height: auto;
+    width: auto;
     margin: 0;
     padding: 0
 }
 
 .tagcloud > a {
-
     top: 0;
     left: 0;
     line-height: 1;

@@ -19,10 +19,14 @@ li.mypanel::before {
 	width: 0;
 	height: 100%;
 	border-bottom: 2px solid #ffffff;
-	transition: 0.2s all linear;
+	transition: 0.15s all linear;
 }
 
 li.mypanel:hover::before {
 	width: 100%;
 	left: 0;
+}
+
+li.mypanel::after{
+	width: 0;
 }

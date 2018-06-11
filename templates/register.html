@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}
+    我的网站|注册
+{% endblock %}
+
+{% block content %}
+    <form action="" method="POST">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-4 col-xs-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Register</h3>
+                        </div>
+                        <div class="panel-body">
+                            {% csrf_token %}
+                            {% for field in reg_form %}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                <p class="text-danger">{{ field.errors.as_text }}</p>
+                            {% endfor %}
+                            <span class="pull-left text-danger">{{ reg_form.non_field_errors }}</span>
+                            <button type="submit" class="btn btn-danger pull-right">Regiser</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+{% endblock %}
