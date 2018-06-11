@@ -18,19 +18,19 @@ def home(request):
     read_nums, dates = get_seven_days_date(blog_content_type)
     today_hot_data = get_today_hot_data(blog_content_type)
     yesterday_hot_data = get_yesterday_hot_data(blog_content_type)
-    for_7_days_hot_data = get_seven_days_hot_blogs()
-    # # gain the hot blogs' data in seven days
-    # for_7_days_hot_data = cache.get('for_7_days_hot_data')
-    # if for_7_days_hot_data is None:
-    #
-    #     cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
+
+    # gain the hot blogs' data in seven days
+    for_7_days_hot_data = cache.get('for_7_days_hot_data')
+    if for_7_days_hot_data is None:
+        for_7_days_hot_data = get_seven_days_hot_blogs()
+        cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
 
     context = {}
     context['read_nums'] = read_nums
     context['dates'] = dates
     context['today_hot_data'] = today_hot_data
     context['yesterday_hot_data'] = yesterday_hot_data
-    context['for_7_days_hot_data'] = get_seven_days_hot_blogs()
+    context['for_7_days_hot_data'] = for_7_days_hot_data
     return render(request, 'home.html', context)
 
 
@@ -62,7 +62,7 @@ def register(request):
     if request.method == "POST":
         reg_form = RegForm(request.POST)
         if reg_form.is_valid():
-            ##创建用户
+            # 创建用户
             username = reg_form.cleaned_data['username']
             email = reg_form.cleaned_data['email']
             password = reg_form.cleaned_data['password']
@@ -70,7 +70,8 @@ def register(request):
             user = User.objects.create_user(username, email, password)
             user.save()
             #登陆用户
-            user = auth.authenticate(user, password)
+            #user = auth.authenticate(user=user, password=password)
+            print(user)
             auth.login(request, user)
             return redirect(request.GET.get('from', reverse('home')))
 

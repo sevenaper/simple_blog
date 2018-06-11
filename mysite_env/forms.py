@@ -50,7 +50,11 @@ class RegForm(forms.Form):
             raise forms.ValidationError('The email has been registered')
         return email
 
+
     def clean_password(self):
+        return self.cleaned_data['password']
+
+    def clean_password_again(self):
         password = self.cleaned_data['password']
         password_again = self.cleaned_data['password_again']
         if password != password_again:
