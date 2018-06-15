@@ -1,14 +1,16 @@
-from .models import BlogType
-from read_statistics.utils import read_statistics_once_read
 import datetime
-from django.utils import timezone
+
 from django.contrib.contenttypes.models import ContentType
+from django.core.cache import cache
+from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, render
-from django.core.paginator import Paginator
-from django.core.cache import cache
+from django.utils import timezone
+
 from blog.models import Blog
+from comment.forms import CommentForm
 from comment.models import Comment
+from .models import BlogType
 
 
 # Create your views here.
@@ -50,12 +52,11 @@ def blog_list(request):
     context['page_range'] = page_range
     context['blog_dates'] = Blog.objects.dates(
         'create_time', 'month', order='DESC')
-    for_7_days_hot_data = get_seven_days_hot_blogs()
-    # for_7_days_hot_data = cache.get('for_7_days_hot_data')
-    # if for_7_days_hot_data is None:
-    #     for_7_days_hot_data = get_seven_days_hot_blogs()
-    #     cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
-    context['for_7_days_hot_data'] = get_seven_days_hot_blogs()
+    for_7_days_hot_data = cache.get('for_7_days_hot_data')
+    if for_7_days_hot_data is None:
+        for_7_days_hot_data = get_seven_days_hot_blogs()
+        cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
+    context['for_7_days_hot_data'] = for_7_days_hot_data
     return render(request, 'blog_list.html', context)
 
 
@@ -64,13 +65,13 @@ def blog_detail(request, blog_pk):
     blog = get_object_or_404(Blog, pk=blog_pk)
     blog_content_type = ContentType.objects.get_for_model(blog)
     comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk)
-    read_cookie_key = read_statistics_once_read(request, blog)
     context['blog'] = get_object_or_404(Blog, pk=blog_pk)
     context['previous_blog'] = Blog.objects.filter(
         create_time__gt=get_object_or_404(Blog, pk=blog_pk).create_time).last()
     context['next_blog'] = Blog.objects.filter(
         create_time__lt=get_object_or_404(Blog, pk=blog_pk).create_time).first()
     context['comments'] = comments
+    context['comment_form'] = CommentForm(initial={'content_type': blog_content_type.model, 'object_id': blog_pk})
     response = render(request, 'blog_detail.html', context)
     response.set_cookie('blog_%s_read' % blog_pk, 'true', max_age=300)
     return response
@@ -117,12 +118,12 @@ def blogs_with_type(request, blog_type_pk):
     context['blog_types'] = BlogType.objects.all()
     context['page_range'] = page_range
     context['blogs_all_list'] = blogs_all_list
-    for_7_days_hot_data = get_seven_days_hot_blogs()
-    # for_7_days_hot_data = cache.get('for_7_days_hot_data')
-    # if for_7_days_hot_data is None:
-    #     for_7_days_hot_data = get_seven_days_hot_blogs()
-    #     cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
-    context['for_7_days_hot_data'] = get_seven_days_hot_blogs()
+
+    for_7_days_hot_data = cache.get('for_7_days_hot_data')
+    if for_7_days_hot_data is None:
+        for_7_days_hot_data = get_seven_days_hot_blogs()
+        cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
+    context['for_7_days_hot_data'] = for_7_days_hot_data
 
     return render(request, 'blogs_with_type.html', context)
 
@@ -170,12 +171,12 @@ def blogs_with_date(request, year, month):
         'create_time', 'month', order='DESC')
     context['year'] = year
     context['month'] = month
-    for_7_days_hot_data = get_seven_days_hot_blogs()
-    # for_7_days_hot_data = cache.get('for_7_days_hot_data')
-    # if for_7_days_hot_data is None:
-    #     for_7_days_hot_data = get_seven_days_hot_blogs()
-    #     cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
-    context['for_7_days_hot_data'] = get_seven_days_hot_blogs()
+
+    for_7_days_hot_data = cache.get('for_7_days_hot_data')
+    if for_7_days_hot_data is None:
+        for_7_days_hot_data = get_seven_days_hot_blogs()
+        cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
+    context['for_7_days_hot_data'] = for_7_days_hot_data
     return render(request, 'blogs_with_date.html', context)
 
 

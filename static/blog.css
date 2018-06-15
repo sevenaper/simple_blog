@@ -50,3 +50,7 @@ h3.comment-area-title {
 div.comment-area-content {
     margin-top: 0.8em;
 }
+
+div.django-ckeditor-widget {
+    width: 100%;
+}

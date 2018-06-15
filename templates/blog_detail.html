@@ -4,13 +4,9 @@
 {% endblock %}
 {% block head_extrends %}
     <link rel="stylesheet" href="/static/blog.css">
-    <style>
-        input:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 1) inset !important;
-            -webkit-text-fill-color: rgba(255, 255, 255, 0) !important;
-
-        }
-    </style>
+    {% load static %}
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 {% endblock %}
 {% block blog %}
     active
@@ -54,16 +50,14 @@
             <div class="comment_area">
                 <h3 class="comment-area-title">提交评论区</h3>
                 {% if user.is_authenticated %}
-                    <form action="{% url 'update_comment' %}" method="post" style="overflow: hidden">
+                    <form id="comment_form" action="{% url 'update_comment' %}" method="post" style="overflow: hidden">
+                        <label for="comment_text">{{ user.username }},欢迎评论</label>
                         {% csrf_token %}
-                        <div class="form-group">
-                            <label for="comment_text">{{ user.username }},欢迎评论</label>
-                            <textarea name="text" class="form-control" id="comment_text" rows="5"
-                                      style="resize: none;"></textarea>
-                        </div>
-                        <input type="hidden" name="object_id" value="{{ blog.pk }}">
-                        <input type="hidden" name="content_type" value="blog">
-                        <input type="submit" value="评论" class="btn btn-primary" style="float: right">
+                        {% for field in comment_form %}
+                            {{ field }}
+                        {% endfor %}
+                        <span id="comment_error" class="text-danger pull-left"></span>
+                        <input type="submit" value="评论" class="btn btn-primary pull-right">
                     </form>
                 {% else %}
                     未登陆，登陆后方可评论
@@ -75,17 +69,65 @@
             </div>
             <div class="comment_area">
                 <h3 class="comment-area-title">评论列表区</h3>
-                {% for comment in comments %}
+                <div id="comment_list">
+
+
+                    {% for comment in comments %}
                     <div class="comment-area-content">
                         {{ comment.user.username }}
-                        ({{ comment.comment_time|date:"Y-m-d" }}):
-                        {{ comment.text }}
+                        ({{ comment.comment_time|date:"Y-m-d H:i:s" }}):
+                        {{ comment.text|safe }}
                     </div>
                 {% empty %}
                     暂无评论
                 {% endfor %}
+                </div>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block script_extends %}
+    <script type="text/javascript">
+
+        $("#comment_form").submit(function () {
+            // language=JQuery-CSS
+            $("#comment_error").text('');
+            //判断是否为空
+            if(CKEDITOR.instances['id_text'].document.getBody().getText().trim()==='')
+            {
+                $("#comment_error").text('评论内容不能为空');
+                return false;
+            }
+            //更新数据到提交数据之前
+            CKEDITOR.instances['id_text'].updateElement();
+            //异步提交
+            $.ajax({
+                url: "{% url 'update_comment' %}",
+                type: 'POST',
+                data: $(this).serialize(),
+                cache: false,
+                success: function (data) {
+                    console.log(data);
+                    if ("SUCCESS" === data['status']) {
+                        var comment_html = '<div>' + data['username'] +
+                            '(' + data['comment_time'] + '): ' + data['text'] + '</div>';
+                        // language=JQuery-CSS
+                        $("#comment_list").prepend(comment_html);
+                        //清空编辑框内容
+                        CKEDITOR.instances['id_text'].setData('');
+                    }
+                    else {
+                        //显示错误信息
+                        // language=JQuery-CSS
+                        $("#comment_error").text(data['message']);
+                    }
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+            return false;
+        });
+    </script>
 {% endblock %}
 
