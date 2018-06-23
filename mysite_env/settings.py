@@ -157,7 +157,6 @@ CACHES = {
         'LOCATION': 'my_cache_table',
     }
 }
-
 # 发送邮件设置
 # https://docs.djangoproject.com/en/2.0/ref/settings/#email
 # https://docs.djangoproject.com/en/2.0/topics/email/

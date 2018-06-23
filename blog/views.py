@@ -10,8 +10,9 @@ from django.utils import timezone
 from blog.models import Blog
 from comment.forms import CommentForm
 from comment.models import Comment
+from user.forms import LoginForm
 from .models import BlogType
-from user.forms import RegForm,LoginForm
+
 
 # Create your views here.
 def blog_list(request):
