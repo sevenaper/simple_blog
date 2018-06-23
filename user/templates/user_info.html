@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}personal information{% endblock %}
+{% block head_extrends %}
+    <script src="/static/type_profile.js"></script>{% endblock %}
+{% block nav_home_active %}active{% endblock %}
+{% block content %}
+    <div class="containter" style="font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace"
+         align="center">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% if user.is_authenticated %}
+                    <h2>{{ user.username }}</h2>
+                    <ul>
+                        <li>Nickname：{{ user.get_nickname }} <a
+                                href="{% url 'change_nickname' %}?from={{ request.get_full_path }}">修改昵称</a></li>
+                        <li>Email：{% if user.email %}{{ user.email }}{% else %}未绑定
+                            <a href="{% url 'bind_email' %}?from={{ request.get_full_path }}">绑定邮箱</a>{% endif %}</li>
+                        <li>Last login time：{{ user.last_login|date:"Y-m-d H:i:s" }}</li>
+                        <li><a href="{% url 'change_password' %}">Change your password</a></li>
+                    </ul>
+                {% else %}
+                    <span>Not logged in</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="home" align="center">
+        <div id="slogan" data-text="Coding for fun"
+             style="font-size: 46px; font-family: Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace">
+        </div>
+        <p
+            style="font-size: 46px; font-family: Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace">
+            Welcome to my blog</p>
+    </div>
+
+{% endblock %}

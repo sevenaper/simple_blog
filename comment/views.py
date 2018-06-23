@@ -15,8 +15,8 @@ def update_comment(request):
         comment.content_object = comment_form.cleaned_data['content_object']
         comment.save()
         data['status'] = 'SUCCESS'
-        data['username'] = comment.user.username
-        data['comment_time'] = comment.comment_time.strftime('%Y-%m-%d %H:%M:%S')
+        data['username'] = comment.user.get_nickname_or_username()
+        data['comment_time'] = comment.comment_time.timestamp()
         data['text'] = comment.text
     else:
         data['status'] = 'ERROR'

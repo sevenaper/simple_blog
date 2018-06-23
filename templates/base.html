@@ -39,6 +39,28 @@
                 <li class="mypanel"><a href="/tag"><p class="glyphicon glyphicon-cloud"></p> Tagcloud</a></li>
                 <li class="mypanel"><a href="/contact"><p class="glyphicon glyphicon-user"></p> Profile</a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if not user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'login' %}?from={{ request.get_full_path }}">Login</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'register' %}?from={{ request.get_full_path }}">Register</a>
+                    </li>
+                {% else %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">{{ user.username }}
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'user_info' %}">Information</a></li>
+                            {% if user.is_staff or user.is_superuser %}
+                                <li><a href="{% url 'admin:index' %}">Back-stage</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'logout' %}?from={{ request.get_full_path }}">Logout</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 </div>

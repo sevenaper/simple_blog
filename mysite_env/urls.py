@@ -26,11 +26,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('blog/', include('blog.urls')),
+    path('likes/', include('likes.urls')),
     path('tag/', blog_tags, name='tag'),
     path('contact/', contact, name='contact'),
     path('comment/', include('comment.urls')),
-    path('login/', views.login, name='login'),
-    path('register/', views.register, name='register'),
+    path('user/', include('user.urls')),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

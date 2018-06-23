@@ -5,12 +5,13 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.db.models import Sum
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse
 from django.utils import timezone
 
 from blog.models import Blog
 from read_statistics.utils import get_seven_days_date, get_today_hot_data, get_yesterday_hot_data
-from .forms import LoginForm, RegForm
+from user.forms import LoginForm, RegForm
 
 
 def home(request):
@@ -55,7 +56,7 @@ def login(request):
 
     context = {}
     context['login_form'] = login_form
-    return render(request, 'login.html', context)
+    return render(request, '../user/templates/login.html', context)
 
 
 def register(request):
@@ -80,4 +81,26 @@ def register(request):
 
     context = {}
     context['reg_form'] = reg_form
-    return render(request, 'register.html', context)
+    return render(request, '../user/templates/register.html', context)
+
+
+def login_for_modal(request):
+    login_form = LoginForm(request.POST)
+    data = {}
+    if login_form.is_valid():
+        user = login_form.cleaned_data['user']
+        auth.login(request, user)
+        data['status'] = 'SUCCESS'
+    else:
+        data['status'] = 'ERROR'
+    return JsonResponse(data)
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect(request.GET.get('from', reverse('home')))
+
+
+def usr_info(request):
+    context = {}
+    return render(request, '../user/templates/user_info.html', context)

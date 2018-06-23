@@ -25,7 +25,7 @@
                                     <span class="glyphicon glyphicon-time"></span>
                                     {{ blog.create_time }}
                                 </p>
-                                <p>{{ blog.content|striptags|truncatechars:132 }}</p>
+                                <p>{{ blog.content|striptags|truncatechars:120 }}</p>
                             </div>
 
                         {% empty %}
@@ -113,24 +113,24 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">七日热门点击</div>
-                    <div class="panel-body">
-                        <div class="hot_blogs">
-                            <div>
-                                <ul>
-                                    {% for hot_data in for_7_days_hot_data %}
-                                        <li>
-                                            <a href="/blog/{{ hot_data.id }}">{{ hot_data.title }}</a>
-                                        </li>
-                                    {% empty %}
-                                        <li>暂无热门博客</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{#                <div class="panel panel-default">#}
+{#                    <div class="panel-heading">七日热门点击</div>#}
+{#                    <div class="panel-body">#}
+{#                        <div class="hot_blogs">#}
+{#                            <div>#}
+{#                                <ul>#}
+{#                                    {% for hot_data in for_7_days_hot_data %}#}
+{#                                        <li>#}
+{#                                            <a href="/blog/{{ hot_data.id }}">{{ hot_data.title }}</a>#}
+{#                                        </li>#}
+{#                                    {% empty %}#}
+{#                                        <li>暂无热门博客</li>#}
+{#                                    {% endfor %}#}
+{#                                </ul>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
             </div>
         </div>
     </div>

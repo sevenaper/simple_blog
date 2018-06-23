@@ -11,7 +11,7 @@ from blog.models import Blog
 from comment.forms import CommentForm
 from comment.models import Comment
 from .models import BlogType
-
+from user.forms import RegForm,LoginForm
 
 # Create your views here.
 def blog_list(request):
@@ -54,7 +54,7 @@ def blog_list(request):
         'create_time', 'month', order='DESC')
     for_7_days_hot_data = cache.get('for_7_days_hot_data')
     if for_7_days_hot_data is None:
-        for_7_days_hot_data = get_seven_days_hot_blogs()
+        for_7_days_hot_data = get_seven_days_date()
         cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
     context['for_7_days_hot_data'] = for_7_days_hot_data
     return render(request, 'blog_list.html', context)
@@ -66,6 +66,8 @@ def blog_detail(request, blog_pk):
     blog_content_type = ContentType.objects.get_for_model(blog)
     comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog.pk)
     context['blog'] = get_object_or_404(Blog, pk=blog_pk)
+    context['login_form'] = LoginForm
+
     context['previous_blog'] = Blog.objects.filter(
         create_time__gt=get_object_or_404(Blog, pk=blog_pk).create_time).last()
     context['next_blog'] = Blog.objects.filter(
@@ -121,7 +123,7 @@ def blogs_with_type(request, blog_type_pk):
 
     for_7_days_hot_data = cache.get('for_7_days_hot_data')
     if for_7_days_hot_data is None:
-        for_7_days_hot_data = get_seven_days_hot_blogs()
+        for_7_days_hot_data = get_seven_days_date()
         cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
     context['for_7_days_hot_data'] = for_7_days_hot_data
 
@@ -174,13 +176,14 @@ def blogs_with_date(request, year, month):
 
     for_7_days_hot_data = cache.get('for_7_days_hot_data')
     if for_7_days_hot_data is None:
-        for_7_days_hot_data = get_seven_days_hot_blogs()
+        for_7_days_hot_data = get_seven_days_date()
         cache.set('for_7_days_hot_data', for_7_days_hot_data, 3600)
     context['for_7_days_hot_data'] = for_7_days_hot_data
+    print(for_7_days_hot_data)
     return render(request, 'blogs_with_date.html', context)
 
 
-def get_seven_days_hot_blogs():
+def get_seven_days_date():
     today = timezone.now().date()
     date = today - datetime.timedelta(days=7)
     blogs = Blog.objects.filter(read_details__date__lt=today, read_details__date__gt=date). \

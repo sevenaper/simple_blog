@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'blog',
     'read_statistics',
     'comment',
+    'likes',
+    'user',
 
 ]
 
@@ -60,8 +62,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
-        ]
-        ,
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,7 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'zh-hans'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -132,6 +132,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 配置ckeditor
 CKEDITOR_UPLOAD_PATH = 'upload/'
 CKEDITOR_CONFIGS = {
+    'default': {},
     'comment_ckeditor': {
         'toolbar': 'custom',
         'toolbar_custom': [
@@ -156,3 +157,14 @@ CACHES = {
         'LOCATION': 'my_cache_table',
     }
 }
+
+# 发送邮件设置
+# https://docs.djangoproject.com/en/2.0/ref/settings/#email
+# https://docs.djangoproject.com/en/2.0/topics/email/
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = '935358939@qq.com'
+EMAIL_HOST_PASSWORD = 'bxrspisdxdvpbdfe'  # 授权码
+EMAIL_SUBJECT_PREFIX = '[aper\'s blog] '
+EMAIL_USE_TLS = True  # 与SMTP服务器通信时，是否启动TLS链接(安全链接)

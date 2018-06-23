@@ -54,3 +54,16 @@ div.comment-area-content {
 div.django-ckeditor-widget {
     width: 100%;
 }
+div.blog-content{
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 0.5em;
+}
+div.like{
+    color:#337ab7;
+    cursor:pointer;
+    display: inline-block;
+    padding: 0.5em 0.3em;
+}
+div.like .active{
+    color:#f22;
+}
